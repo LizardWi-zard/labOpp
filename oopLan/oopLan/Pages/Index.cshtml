@@ -1,0 +1,35 @@
+﻿@page
+@model IndexModel
+@{
+	ViewData["Title"] = "Applications";
+}
+
+<div>
+	<form class="search-block">
+		<input type="search" class="search-field" placeholder="Поле поиска"/>
+		<label class="search-label">от</label>
+		<input type="date" class="date-field" name="dateStart"/>
+		<label class="search-label">до</label>
+		<input type="date" class="date-field" name="dateEnd"/>
+		<button class="input-button search-button">Поиск</button>
+	</form>
+	<table>
+		<thead>
+			<tr>
+				<th scope="col">Название</th>
+				<th scope="col">Тип активности</th>
+				<th scope="col">Описание</th>
+				<th scope="col">Дата</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th scope="row">Мастер-класс по C#</th>
+				<td>Программирование</td>
+				<td>Изучение основых особенностей языка программирования</td>
+				<td>02.06.2024</td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>
