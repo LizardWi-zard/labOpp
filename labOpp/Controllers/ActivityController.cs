@@ -1,5 +1,7 @@
 using labOpp.Model;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Net;
 
 namespace labOpp.Controllers
@@ -9,10 +11,13 @@ namespace labOpp.Controllers
     public class ActivityController : ControllerBase
     {
         private readonly ILogger<ActivityController> _logger;
+        private readonly IApplicationProvider _getApplication;
 
-        public ActivityController(ILogger<ActivityController> logger)
+        public ActivityController(ILogger<ActivityController> logger, IApplicationProvider getApplication)
         {
             _logger = logger;
+            _getApplication = getApplication ?? throw new ArgumentNullException(nameof(getApplication));
+
         }
 
         // создание заявки
@@ -32,19 +37,6 @@ namespace labOpp.Controllers
 
             var response = new DbResponse();
 
-            if (IsDataCorrect(application))
-            {
-                if (application != null)
-                {
-                    application.Status = "Unsubmitted";
-                    application.EditTime = DateTime.Now;
-                    response = await _getApplication.CreateApplication(application);
-                }
-            }
-            else
-            {
-                return HttpStatusCode.BadRequest.ToString();
-            }
 
             var output = response.Data;
 
@@ -67,20 +59,6 @@ namespace labOpp.Controllers
             }
 
             DbResponse response = new DbResponse();
-
-            if (IsDataCorrect(application))
-            {
-                if (application != null)
-                {
-                    application.Status = "Unsubmitted";
-                    application.EditTime = DateTime.Now;
-                    response = await _getApplication.EditApplication(Guid.Parse(id), application);
-                }
-            }
-            else
-            {
-                return HttpStatusCode.BadRequest.ToString();
-            }
 
             var output = response.Data;
 
@@ -171,24 +149,15 @@ namespace labOpp.Controllers
 
         //получение списка возможных типов активности
         [HttpGet("/Activities")]
-        public async Task<ActionResult<string>> GetActivities()
+        public async Task<ActionResult<List<Activity>>> GetActivities()
         {
             var response = await _getApplication.GetActivities();
 
-            string output = (string)response.Data;
+            var output = response.Data as List<Activity>; ;
 
             return output;
         }
 
-        private bool IsDataCorrect(Application application)
-        {
-            var isGuid = Guid.TryParse(application?.Author.ToString(), out var correctGuid);
-            var correctActivity = (application.Activity != null && application.Activity == "Report" || application.Activity == "Masterclass" || application.Activity == "Discussion"); ;
-            var correctName = (application.Name != null && application.Name.Length != 0 && application.Name.Length < 100);
-            var correctDescription = (application.Description != null && application.Description.Length < 300);
-            var correctOutline = (application.Outline != null && application.Outline.Length != 0 && application.Outline.Length < 1000);
-
-            return (isGuid && correctActivity && correctName && correctDescription && correctOutline);
-        }
+     
     }
 }

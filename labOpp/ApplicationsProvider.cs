@@ -1,4 +1,6 @@
-﻿using labOpp.Model;
+﻿using labOpp.Context;
+using labOpp.Model;
+using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using System.Net;
 
@@ -6,7 +8,7 @@ namespace labOpp
 {
     public class ApplicationsProvider : IApplicationProvider
     {
-
+        private readonly ConferenceDbContext _context;
         const string connectionString = "ConnectionStrings:ConnectionString";
 
         const string selectAllQuery = "SELECT json_agg(applications) AS json_data FROM (SELECT \"Applications\".\"id\", \"Applications\".\"Author\", \"Applications\".\"Activity\",\"Applications\".\"Name\",\"Applications\".\"Description\", \"Applications\".\"Outline\" FROM \"Applications\") AS applications;";
@@ -24,10 +26,16 @@ namespace labOpp
 
         private readonly IConfiguration _configuration;
 
-        public ApplicationsProvider(IConfiguration configuration)
+        public ApplicationsProvider(IConfiguration configuration, ConferenceDbContext context)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+
+            _context = context;
+
+
         }
+
+        /*
 
         public async Task<DbResponse> CreateApplication(Application application)
         {
@@ -91,122 +99,166 @@ namespace labOpp
             return new DbResponse() { Status = HttpStatusCode.OK, Data = application };
 
         }
-
+*/
         public async Task<DbResponse> GetActivities()
         {
-            using var connection = new NpgsqlConnection(_configuration.GetValue<string>(connectionString));
+            var activities = await _context.Activities.ToListAsync();
 
-            var activities = await connection.QueryAsync<string>(getActivitiesQuery);
-
-            if (activities == null)
+            if (activities == null || activities.Count == 0)
             {
                 return new DbResponse() { Status = HttpStatusCode.NotFound };
             }
 
-            return new DbResponse() { Status = HttpStatusCode.OK, Data = activities.ToArray()[0] };
+            return new DbResponse() { Status = HttpStatusCode.OK, Data = activities };
         }
 
-        public class Activities
+        public Task<DbResponse> CreateApplication(Application application)
         {
-            public Activities(string act, string desc)
-            {
-                Activity = act;
-                Description = desc;
-
-            }
-
-            public string Activity { get; set; }
-
-            public string Description { get; set; }
+            throw new NotImplementedException();
         }
 
-        public async Task<DbResponse> GetAllApplications()
+        public Task<DbResponse> EditApplication(Guid id, Application application)
         {
-            using var connection = new NpgsqlConnection(_configuration.GetValue<string>(connectionString));
-
-            var applications = await connection.QueryAsync<string>(selectAllQuery);
-
-            if (applications == null)
-            {
-                return new DbResponse() { Status = HttpStatusCode.NotFound };
-            }
-
-            return new DbResponse() { Status = HttpStatusCode.OK, Data = applications.ToArray()[0] };
+            throw new NotImplementedException();
         }
 
-        public async Task<DbResponse> GetApplicationById(Guid id)
+        public Task<DbResponse> DeleteApplication(Guid id)
         {
-            using var connection = new NpgsqlConnection(_configuration.GetValue<string>(connectionString));
-
-            var applications = await connection.QueryAsync<string>(getApplicationByUuidQuery,
-                new { id });
-
-            if (applications == null)
-            {
-                return new DbResponse() { Status = HttpStatusCode.NotFound };
-            }
-
-            return new DbResponse() { Status = HttpStatusCode.OK, Data = applications.ToArray()[0] };
+            throw new NotImplementedException();
         }
 
-        public async Task<DbResponse> GetApplicationsSubmittedAfter(DateTime dateTime)
+        public Task<DbResponse> SubmittingApplication(Guid id)
         {
-            using var connection = new NpgsqlConnection(_configuration.GetValue<string>(connectionString));
-
-            var applications = await connection.QueryAsync<string>(getApplicationsSubmittedAfterQuery,
-               new { EditTime = dateTime });
-
-            if (applications == null)
-            {
-                return new DbResponse() { Status = HttpStatusCode.NotFound };
-            }
-
-            return new DbResponse() { Status = HttpStatusCode.OK, Data = applications.ToArray()[0] };
+            throw new NotImplementedException();
         }
 
-        public async Task<DbResponse> GetApplicationsUnsubmittedOlder(DateTime dateTime)
+        public Task<DbResponse> GetApplicationsSubmittedAfter(DateTime dateTime)
         {
-            using var connection = new NpgsqlConnection(_configuration.GetValue<string>(connectionString));
-
-            var applications = await connection.QueryAsync<string>(getApplicationsUnsubmittedOlderQuery,
-               new { EditTime = dateTime });
-
-            if (applications == null)
-            {
-                return new DbResponse() { Status = HttpStatusCode.NotFound };
-            }
-
-            return new DbResponse() { Status = HttpStatusCode.OK, Data = applications.ToArray()[0] };
+            throw new NotImplementedException();
         }
 
-        public async Task<DbResponse> GetUsersUnsubmittedApplication(Guid author)
+        public Task<DbResponse> GetApplicationsUnsubmittedOlder(DateTime dateTime)
         {
-            using var connection = new NpgsqlConnection(_configuration.GetValue<string>(connectionString));
-
-            var applications = await connection.QueryAsync<string>(getUnsubmittedApplicationsFromUser,
-                new { Author = author });
-
-            if (applications == null)
-            {
-                return new DbResponse() { Status = HttpStatusCode.NotFound };
-            }
-
-            return new DbResponse() { Status = HttpStatusCode.OK, Data = applications.ToArray()[0] };
+            throw new NotImplementedException();
         }
 
-        public async Task<DbResponse> SubmittingApplication(Guid id)
+        public Task<DbResponse> GetUsersUnsubmittedApplication(Guid id)
         {
-            using var connection = new NpgsqlConnection(_configuration.GetValue<string>(connectionString));
+            throw new NotImplementedException();
+        }
 
-            var affected = await connection.ExecuteAsync(submitApplicationQuery,
+        public Task<DbResponse> GetApplicationById(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<DbResponse> GetAllApplications()
+        {
+            throw new NotImplementedException();
+        }
+        /*
+       public class Activities
+       {
+           public Activities(string act, string desc)
+           {
+               Activity = act;
+               Description = desc;
+
+           }
+
+           public string Activity { get; set; }
+
+           public string Description { get; set; }
+       }
+
+       public async Task<DbResponse> GetAllApplications()
+       {
+           using var connection = new NpgsqlConnection(_configuration.GetValue<string>(connectionString));
+
+           var applications = await connection.QueryAsync<string>(selectAllQuery);
+
+           if (applications == null)
+           {
+               return new DbResponse() { Status = HttpStatusCode.NotFound };
+           }
+
+           return new DbResponse() { Status = HttpStatusCode.OK, Data = applications.ToArray()[0] };
+       }
+
+       public async Task<DbResponse> GetApplicationById(Guid id)
+       {
+           using var connection = new NpgsqlConnection(_configuration.GetValue<string>(connectionString));
+
+           var applications = await connection.QueryAsync<string>(getApplicationByUuidQuery,
                new { id });
 
-            if (affected == 0)
-            {
-                return new DbResponse() { Status = HttpStatusCode.Conflict };
-            }
+           if (applications == null)
+           {
+               return new DbResponse() { Status = HttpStatusCode.NotFound };
+           }
 
-            return new DbResponse() { Status = HttpStatusCode.OK, Data = true };
-        }
+           return new DbResponse() { Status = HttpStatusCode.OK, Data = applications.ToArray()[0] };
+       }
+
+       public async Task<DbResponse> GetApplicationsSubmittedAfter(DateTime dateTime)
+       {
+           using var connection = new NpgsqlConnection(_configuration.GetValue<string>(connectionString));
+
+           var applications = await connection.QueryAsync<string>(getApplicationsSubmittedAfterQuery,
+              new { EditTime = dateTime });
+
+           if (applications == null)
+           {
+               return new DbResponse() { Status = HttpStatusCode.NotFound };
+           }
+
+           return new DbResponse() { Status = HttpStatusCode.OK, Data = applications.ToArray()[0] };
+       }
+
+       public async Task<DbResponse> GetApplicationsUnsubmittedOlder(DateTime dateTime)
+       {
+           using var connection = new NpgsqlConnection(_configuration.GetValue<string>(connectionString));
+
+           var applications = await connection.QueryAsync<string>(getApplicationsUnsubmittedOlderQuery,
+              new { EditTime = dateTime });
+
+           if (applications == null)
+           {
+               return new DbResponse() { Status = HttpStatusCode.NotFound };
+           }
+
+           return new DbResponse() { Status = HttpStatusCode.OK, Data = applications.ToArray()[0] };
+       }
+
+       public async Task<DbResponse> GetUsersUnsubmittedApplication(Guid author)
+       {
+           using var connection = new NpgsqlConnection(_configuration.GetValue<string>(connectionString));
+
+           var applications = await connection.QueryAsync<string>(getUnsubmittedApplicationsFromUser,
+               new { Author = author });
+
+           if (applications == null)
+           {
+               return new DbResponse() { Status = HttpStatusCode.NotFound };
+           }
+
+           return new DbResponse() { Status = HttpStatusCode.OK, Data = applications.ToArray()[0] };
+       }
+
+       public async Task<DbResponse> SubmittingApplication(Guid id)
+       {
+           using var connection = new NpgsqlConnection(_configuration.GetValue<string>(connectionString));
+
+           var affected = await connection.ExecuteAsync(submitApplicationQuery,
+              new { id });
+
+           if (affected == 0)
+           {
+               return new DbResponse() { Status = HttpStatusCode.Conflict };
+           }
+
+           return new DbResponse() { Status = HttpStatusCode.OK, Data = true };
+       }
+*/
     }
 }
