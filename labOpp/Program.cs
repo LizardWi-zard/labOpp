@@ -14,6 +14,9 @@ namespace labOpp
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddScoped<IApplicationProvider, ApplicationsProvider>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
