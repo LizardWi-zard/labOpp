@@ -5,16 +5,16 @@
 }
 <div class="create-application-block">
 
-	<form class="create-application">
-		
-		<label>Название</label>
-		<p><input class="input-text" type="text" maxlength="48" name="applicationName" required /></p>
-		<label>Тип активности</label>
-		<p><input class="input-text" list="activityList" type="text" name="applicationActivity" required /></p>
-		<label>Описание</label>
-		<p><textarea class="input-description" name="applicationDescription" required></textarea></p>
+	<form class="create-application" method="post">
+
+		 <label>Название</label>
+		<p><input class="input-text" type="text" maxlength="48" name="ApplicationName" required /></p>
+        <label>Тип активности</label>
+		<p><input class="input-text" list="activityList" type="text" name="ApplicationActivity" required /></p>
+        <label>Описание</label>
+		<p><textarea class="input-description" name="ApplicationDescription" required></textarea></p>
 		<p>
-			<button class="input-button search-button" type="submit">Создать</button>
+			<button action="@Model.CreateNewApplication()" class="input-button search-button" type="submit">Создать</button>
 		</p>
 	</form>
 

@@ -44,7 +44,7 @@ namespace labOpp.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("/CreateNewApplication")]
         public async Task<DbResponse> CreateNewApplication(Application newApplication)
         {
             if (newApplication == null)
