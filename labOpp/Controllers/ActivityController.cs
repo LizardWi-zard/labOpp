@@ -49,17 +49,34 @@ namespace labOpp.Controllers
         {
             if (newApplication == null)
             {
-                return new DbResponse() { Status = HttpStatusCode.BadRequest, Data = string.Empty};
+                return new DbResponse() { Status = HttpStatusCode.BadRequest, Data = string.Empty };
             }
 
             var response = await _getApplication.AddApplication(newApplication);
 
             if (response.Status == HttpStatusCode.Created)
             {
-                return new DbResponse() { Status = HttpStatusCode.Created, Data = response.Data};
+                return new DbResponse() { Status = HttpStatusCode.Created, Data = response.Data };
             }
 
             return new DbResponse() { Status = response.Status, Data = string.Empty };
+        }
+
+        [HttpDelete("/DeleteApplication")]
+        public async Task<DbResponse> DeleteApplication(Guid applicationID)
+        {
+            if (applicationID == null)
+            {
+                return new DbResponse() { Status = HttpStatusCode.BadRequest, Data = string.Empty };
+            }
+
+            var response = await _getApplication.DeleteApplication(applicationID);
+
+            if (response.Status == HttpStatusCode.NotFound)
+            {
+                return new DbResponse() { Status = HttpStatusCode.NotFound, Data = string.Empty };
+            }
+            return new DbResponse() { Status = response.Status, Data = response.Data };
         }
     }
 }
