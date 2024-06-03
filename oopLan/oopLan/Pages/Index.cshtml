@@ -12,7 +12,7 @@
 		<label class="search-label">до</label>
 		<input type="date" class="date-field" name="dateEnd"/>
 		<button class="input-button search-button">Поиск</button>
-		<button action="@Model.OnGet()">Обновить</button>
+		<button class="search-button update-button material-icons" style="font-size:32px;" "@Model.OnGet()">refresh</button>
 	</form>
 	<table data="Applications">
 		<thead>
@@ -24,6 +24,7 @@
 				<th scope="col">План</th>
 				<th scope="col">Платформа</th>
 				<th scope="col">Дата</th>
+				<th scope="col"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -37,6 +38,12 @@
 						<td>@application.Plan</td>
 						<td>@application.Platform</td>
 						<td>@application.SubmissionDate.ToString("dd.MM.yyyy")</td>
+					<td>
+						<form method="post" asp-page-handler="DeleteApplication">
+							<input type="hidden" name="applicationId" value="@application.ApplicationID" />
+							<button type="submit" class="delete-button @(Model.currentDeletedApplication==@application.ApplicationID ? "application-deleted": "")">+</button>
+						</form>
+					</td>
 					</tr>
 			}
 		</tbody>

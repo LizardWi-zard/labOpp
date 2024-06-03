@@ -6,25 +6,29 @@
 <div class="create-application-block">
 
 	<form class="create-application" method="post">
-
-		 <label>Название</label>
-		<p><input class="input-text" type="text" maxlength="48" name="ApplicationName" required /></p>
-        <label>Тип активности</label>
-		<p><input class="input-text" list="activityList" type="text" name="ApplicationActivity" required /></p>
-        <label>Описание</label>
-		<p><textarea class="input-description" name="ApplicationDescription" required></textarea></p>
+		<label>Имя</label>
+		<p><input class="input-text" type="text" maxlength="48" name="userName" autocomplete="off" required></p>
+		<label>Email</label>
+		<p><input class="input-text" type="email" name="userEmail" autocomplete="off" required /></p>
+		<label>Название</label>
+		<p><input class="input-text" type="text" maxlength="48" name="applicationName" autocomplete="off" required /></p>
+		<label>Тип активности</label>
+		<p><select class="input-text"  name="applicationActivity" required >
+				<option value="Программирование">Программирование</option>
+				<option value="Экономика" >Экономика</option>
+				<option value="Математика" >Математика</option>
+				<option value="Музыка" >Музыка</option>
+				<option value="Образ жизни" >Образ жизни</option>
+				<option value="Мода">Мода</option>
+		</select></p>
+		<label>Описание</label>
+		<p><textarea class="input-description" name="applicationDescription" autocomplete="off" required></textarea></p>
 		<p>
 			<button action="@Model.CreateNewApplication()" class="input-button search-button" type="submit">Создать</button>
 		</p>
 	</form>
 
-	<datalist id="activityList">
-		<option value="Программирование" />
-		<option value="Экономика" />
-		<option value="Математика" />
-		<option value="Музыка" />
-		<option value="Образ жизни" />
-		<option value="Мода" />	
-	</datalist>
+		
+
 
 </div>
