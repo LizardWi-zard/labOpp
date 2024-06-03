@@ -1,6 +1,7 @@
 ﻿using labOpp.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace labOpp.Context
 {
@@ -11,19 +12,14 @@ namespace labOpp.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Application> Applications { get; set; }
-        public DbSet<ApplicationDraft> ApplicationDrafts { get; set; }
+		public DbSet<Platform> Platforms { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Applications);
-
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Drafts)
-                .WithOne(d => d.User)
-                .HasForeignKey(d => d.UserID);
-
+            modelBuilder.Entity<User>();
             modelBuilder.Entity<Activity>();
-        }
+			modelBuilder.Entity<Platform>();
+			modelBuilder.Entity<Application>();
+		}
     }
 }
