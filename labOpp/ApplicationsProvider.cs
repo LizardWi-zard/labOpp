@@ -1,5 +1,7 @@
 ﻿using labOpp.Context;
 using labOpp.Model;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Npgsql;
@@ -65,6 +67,14 @@ namespace labOpp
 
                 return new DbResponse() { Status = HttpStatusCode.OK, Data = activities };
             }
+        }
+
+        public async Task<DbResponse> AddApplication(Application newApplication)
+        {
+            _context.Applications.Add(newApplication);
+            await _context.SaveChangesAsync();
+
+            return new DbResponse() { Status = HttpStatusCode.Created, Data = newApplication };
         }
     }
 }

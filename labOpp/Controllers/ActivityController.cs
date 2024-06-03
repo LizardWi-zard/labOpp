@@ -1,6 +1,7 @@
 using labOpp.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Net;
 
@@ -40,6 +41,25 @@ namespace labOpp.Controllers
             var output = response.Data as List<Activity>; ;
 
             return output;
+        }
+
+
+        [HttpPost]
+        public async Task<DbResponse> CreateNewApplication(Application newApplication)
+        {
+            if (newApplication == null)
+            {
+                return new DbResponse() { Status = HttpStatusCode.BadRequest, Data = string.Empty};
+            }
+
+            var response = await _getApplication.AddApplication(newApplication);
+
+            if (response.Status == HttpStatusCode.Created)
+            {
+                return new DbResponse() { Status = HttpStatusCode.Created, Data = response.Data};
+            }
+
+            return new DbResponse() { Status = response.Status, Data = string.Empty };
         }
     }
 }

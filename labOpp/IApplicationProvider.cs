@@ -7,5 +7,6 @@ namespace labOpp
     {
         Task<DbResponse> GetActivities();
         Task<DbResponse> GetApplications();
+        Task<DbResponse> AddApplication(Application newApplication);
     }
 }
