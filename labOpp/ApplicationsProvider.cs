@@ -76,5 +76,15 @@ namespace labOpp
 
             return new DbResponse() { Status = HttpStatusCode.Created, Data = newApplication };
         }
+
+        public async Task<DbResponse> DeleteApplication(Guid applicationID)
+        {
+            Application deletingApplication = await _context.Applications.FindAsync(applicationID);
+            _context.Applications.Remove(deletingApplication);
+            await _context.SaveChangesAsync();
+
+            return new DbResponse() {Status = HttpStatusCode.OK, Data = string.Empty};
+
+        }
     }
 }
