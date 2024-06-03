@@ -1,4 +1,4 @@
-﻿@page
+﻿@page 
 @model IndexModel
 @{
 	ViewData["Title"] = "Applications";
@@ -12,8 +12,9 @@
 		<label class="search-label">до</label>
 		<input type="date" class="date-field" name="dateEnd"/>
 		<button class="input-button search-button">Поиск</button>
+		<button action="@Model.OnGet()">Обновить</button>
 	</form>
-	<table>
+	<table data="Applications">
 		<thead>
 			<tr>
 				<th scope="col">Название</th>
@@ -23,13 +24,18 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<th scope="row">Мастер-класс по C#</th>
-				<td>Программирование</td>
-				<td>Изучение основых особенностей языка программирования</td>
-				<td>02.06.2024</td>
-			</tr>
+			@foreach (var application in Model.applications)
+			{
+					<tr>
+						<th scope="row">@application.Title</th>
+						<td>@application.ActivityTypeID</td>
+						<td>@application.ShortDescription</td>
+						<td>@application.SubmissionDate.ToString("dd.MM.yyyy")</td>
+					</tr>
+			}
 		</tbody>
 	</table>
 
+
 </div>
+
