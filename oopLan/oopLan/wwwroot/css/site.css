@@ -204,7 +204,8 @@ tfoot td {
 }
 
 .search-field {
-    width: 54%;
+    width: 100%;
+    margin-bottom: 5px;
     padding-left: 8px;
     font-size: 1.1em;
     border-radius: 4px;
@@ -216,6 +217,7 @@ tfoot td {
     margin-left: 5px;
     color: white;
 }
+
 
 .input-button {
     font-size: 1.1em;
@@ -230,6 +232,7 @@ tfoot td {
 
 .search-button {
     float: right;
+    margin-left: 5px;
 }
 
 .date-field {
@@ -271,4 +274,38 @@ tfoot td {
     display: inline-block;
     background-color: white;
     border-radius: 16px;
+}
+
+.delete-button {
+    transform: rotate(45deg);
+    background: none;
+    border: none;
+    font-weight: bold;
+    font-size: 18px;
+    color: orangered;
+}
+
+.update-button {
+    border: none;
+    background: none;
+    color: white;
+    font-size: 300px;
+}
+
+    .update-button:hover {
+        animation: rotation;
+        animation-iteration-count: 1;
+        animation-duration: 0.1s;
+        animation-timing-function: ease-out;
+        animation-fill-mode:forwards;
+    }
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(60deg);
+    }
 }

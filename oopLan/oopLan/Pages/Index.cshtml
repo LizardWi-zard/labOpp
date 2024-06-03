@@ -12,7 +12,7 @@
 		<label class="search-label">до</label>
 		<input type="date" class="date-field" name="dateEnd"/>
 		<button class="input-button search-button">Поиск</button>
-		<button action="@Model.OnGet()">Обновить</button>
+		<button class="search-button update-button material-icons" style="font-size:32px;" "@Model.OnGet()">refresh</button>
 	</form>
 	<table data="Applications">
 		<thead>
@@ -21,6 +21,7 @@
 				<th scope="col">Тип активности</th>
 				<th scope="col">Описание</th>
 				<th scope="col">Дата</th>
+				<th scope="col"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -31,6 +32,7 @@
 						<td>@application.ActivityTypeID</td>
 						<td>@application.ShortDescription</td>
 						<td>@application.SubmissionDate.ToString("dd.MM.yyyy")</td>
+					<td><button class="delete-button" content:>+</button></td>
 					</tr>
 			}
 		</tbody>
