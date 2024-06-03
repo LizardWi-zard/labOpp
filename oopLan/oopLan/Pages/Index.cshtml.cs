@@ -12,7 +12,8 @@ namespace oopLan.Pages
     {
         //[Inject]
         private HttpClient _http = new HttpClient();
-        public List<Application> applications { get; set; }
+        public List<Application> applications { get; set; } = new List<Application>();
+
 
         public IndexModel()
         {
@@ -21,7 +22,16 @@ namespace oopLan.Pages
 
         public async Task OnGet()
         {
-            applications = await _http.GetFromJsonAsync<List<Application>>("https://localhost:7096/Applications");
+            try
+            {
+                applications = await _http.GetFromJsonAsync<List<Application>>("https://localhost:7096/Applications");
+
+            }
+            catch (Exception ex) 
+            {
+            
+            }
+
         }
     }
 
