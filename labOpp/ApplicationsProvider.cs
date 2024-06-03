@@ -83,6 +83,7 @@ namespace labOpp
 											join z in _context.Platforms on a.PlatformId equals z.PlatformId
 											select new OutputApplication
 											{
+												ApplicationId = a.ApplicationID,
 												Title = a.Title,
 												Author = u.Name,
 												Activity = s.Name,

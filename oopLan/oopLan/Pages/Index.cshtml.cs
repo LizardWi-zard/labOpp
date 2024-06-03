@@ -8,6 +8,7 @@ using static System.Net.WebRequestMethods;
 using labOpp.Model;
 using System;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace oopLan.Pages
@@ -50,6 +51,9 @@ namespace oopLan.Pages
                 }
             }
             catch (Exception ex)
+            {
+
+            }
 
             
 

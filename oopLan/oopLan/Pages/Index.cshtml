@@ -40,8 +40,8 @@
 						<td>@application.SubmissionDate.ToString("dd.MM.yyyy")</td>
 					<td>
 						<form method="post" asp-page-handler="DeleteApplication">
-							<input type="hidden" name="applicationId" value="@application.ApplicationID" />
-							<button type="submit" class="delete-button @(Model.currentDeletedApplication==@application.ApplicationID ? "application-deleted": "")">+</button>
+							<input type="hidden" name="applicationId" value="@application.ApplicationId" />
+							<button type="submit" class="delete-button @(Model.currentDeletedApplication==@application.ApplicationId ? "application-deleted": "")">+</button>
 						</form>
 					</td>
 					</tr>
