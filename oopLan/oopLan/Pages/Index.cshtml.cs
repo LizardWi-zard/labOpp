@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Dynamic;
+using System.Text.Json;
+using System.Text;
 using static System.Net.WebRequestMethods;
+using Microsoft.AspNetCore.Builder;
 
 namespace oopLan.Pages
 {
@@ -13,14 +16,32 @@ namespace oopLan.Pages
         //[Inject]
         private HttpClient _http = new HttpClient();
         public List<Application> applications { get; set; } = new List<Application>();
-
+        public Guid currentDeletedApplication;
 
         public IndexModel()
         {
-            OnGet();
+           OnGet();
         }
 
-        public async Task OnGet()
+        public IActionResult IndexModelRefresh() 
+        {
+            return Page();
+        }
+
+		public async Task OnPostDeleteApplication(Guid applicationID)
+		{
+            currentDeletedApplication = applicationID;
+
+			using (HttpClient client = new HttpClient())
+			{
+				var response = await client.DeleteAsync($"https://localhost:7096/DeleteApplication?applicationID={applicationID}");
+			}
+            IndexModelRefresh();
+		}
+
+        
+
+		public async Task OnGet()
         {
             try
             {
@@ -33,9 +54,10 @@ namespace oopLan.Pages
             }
 
         }
-    }
 
-    public class Application
+	}
+
+	public class Application
     {
         public Guid ApplicationID { get; set; }
         public Guid UserID { get; set; }

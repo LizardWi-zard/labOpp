@@ -297,7 +297,7 @@ tfoot td {
         animation-iteration-count: 1;
         animation-duration: 0.1s;
         animation-timing-function: ease-out;
-        animation-fill-mode:forwards;
+        animation-fill-mode: forwards;
     }
 
 @keyframes rotation {
@@ -308,4 +308,10 @@ tfoot td {
     100% {
         transform: rotate(60deg);
     }
+}
+
+.application-deleted {
+    color: gray;
+    pointer-events: none;
+    cursor: not-allowed;
 }
