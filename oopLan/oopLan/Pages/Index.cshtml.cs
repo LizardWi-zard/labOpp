@@ -1,21 +1,15 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Dynamic;
-using static System.Net.WebRequestMethods;
+using labOpp.Model;
+using System;
+
 
 namespace oopLan.Pages
 {
-    public class IndexModel : PageModel
+	public class IndexModel : PageModel
     {
-        //[Inject]
-        private HttpClient _http = new HttpClient();
-        public List<Application> applications { get; set; } = new List<Application>();
+		public List<OutputApplication> applicationsList { get; set; } = new List<OutputApplication>();
 
-
-        public IndexModel()
+		public IndexModel()
         {
             OnGet();
         }
@@ -24,25 +18,20 @@ namespace oopLan.Pages
         {
             try
             {
-                applications = await _http.GetFromJsonAsync<List<Application>>("https://localhost:7096/Applications");
-
+                using (HttpClient _http = new HttpClient())
+                {
+                    applicationsList = await _http.GetFromJsonAsync<List<OutputApplication>>("https://localhost:7096/OutputApplications");
+                }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-            
+
             }
 
-        }
-    }
 
-    public class Application
-    {
-        public Guid ApplicationID { get; set; }
-        public Guid UserID { get; set; }
-        public string ActivityTypeID { get; set; }
-        public string Title { get; set; }
-        public string ShortDescription { get; set; }
-        public string Plan { get; set; }
-        public DateTime SubmissionDate { get; set; }
+            
+
+
+		}
     }
 }

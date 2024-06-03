@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System;
 using System.Net;
 
 namespace labOpp.Controllers
@@ -43,8 +44,38 @@ namespace labOpp.Controllers
             return output;
         }
 
+		[HttpGet("/Platforms")]
+		public async Task<List<Platform>> GetPlatforms()
+		{
+			var response = await _getApplication.GetPlatforms();
 
-        [HttpPost("/CreateNewApplication")]
+			var output = response.Data as List<Platform>;
+
+			return output;
+		}
+
+		[HttpGet("/Users")]
+		public async Task<List<User>> GetUsers()
+		{
+			var response = await _getApplication.GetUsers();
+
+			var output = response.Data as List<User>; ;
+
+			return output;
+		}
+
+		[HttpGet("/OutputApplications")]
+		public async Task<List<OutputApplication>> GetOutputApplications()
+		{
+			var response = await _getApplication.GetOutputApplication();
+
+			var output = response.Data as List<OutputApplication>;
+
+			return output;
+		}
+
+
+		[HttpPost("/CreateNewApplication")]
         public async Task<DbResponse> CreateNewApplication(Application newApplication)
         {
             if (newApplication == null)
@@ -78,5 +109,23 @@ namespace labOpp.Controllers
             }
             return new DbResponse() { Status = response.Status, Data = response.Data };
         }
-    }
+
+		[HttpPost("/CreateNewUser")]
+		public async Task<DbResponse> CreateNewUser(User newUser)
+		{
+			if (newUser == null)
+			{
+				return new DbResponse() { Status = HttpStatusCode.BadRequest, Data = string.Empty };
+			}
+
+			var response = await _getApplication.AddUser(newUser);
+
+			if (response.Status == HttpStatusCode.Created)
+			{
+				return new DbResponse() { Status = HttpStatusCode.Created, Data = response.Data };
+			}
+
+			return new DbResponse() { Status = response.Status, Data = string.Empty };
+		}
+	}
 }

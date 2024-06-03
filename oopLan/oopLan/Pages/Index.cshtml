@@ -18,18 +18,24 @@
 		<thead>
 			<tr>
 				<th scope="col">Название</th>
+				<th scope="col">Автор</th>
 				<th scope="col">Тип активности</th>
 				<th scope="col">Описание</th>
+				<th scope="col">План</th>
+				<th scope="col">Платформа</th>
 				<th scope="col">Дата</th>
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var application in Model.applications)
+			@foreach (var application in Model.applicationsList)
 			{
 					<tr>
 						<th scope="row">@application.Title</th>
-						<td>@application.ActivityTypeID</td>
+						<td>@application.Author</td>
+						<td>@application.Activity</td>
 						<td>@application.ShortDescription</td>
+						<td>@application.Plan</td>
+						<td>@application.Platform</td>
 						<td>@application.SubmissionDate.ToString("dd.MM.yyyy")</td>
 					</tr>
 			}

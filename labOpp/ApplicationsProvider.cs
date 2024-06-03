@@ -27,49 +27,81 @@ namespace labOpp
             _context = context;
         }
 
-
         public async Task<DbResponse> GetActivities()
         {
-            if(NoDb)
-            {
-                List<Activity> output = JsonConvert.DeserializeObject<List<Activity>>(baseActivityReturn).ToList();
-                return new DbResponse() { Status = HttpStatusCode.OK, Data = output };
-            }
-            else
-            {
-                var activities = await _context.Activities.ToListAsync();
+			var activities = await _context.Activities.ToListAsync();
 
-                if (activities == null || activities.Count == 0)
-                {
-                    return new DbResponse() { Status = HttpStatusCode.NotFound };
-                }
+			if (activities == null || activities.Count == 0)
+			{
+				return new DbResponse() { Status = HttpStatusCode.NotFound };
+			}
 
-                return new DbResponse() { Status = HttpStatusCode.OK, Data = activities };
-            }
+			return new DbResponse() { Status = HttpStatusCode.OK, Data = activities };
+		}
 
-        }
-
-        public async Task<DbResponse> GetApplications()
+		public async Task<DbResponse> GetApplications()
         {
-            if (NoDb)
-            {
-                List<Application> output = JsonConvert.DeserializeObject<List<Application>>(baseApplicationReturn).ToList();
-                return new DbResponse() { Status = HttpStatusCode.OK, Data = output };
-            }
-            else
-            {
-                var activities = await _context.Applications.ToListAsync();
+			var applications = await _context.Applications.ToListAsync();
 
-                if (activities == null || activities.Count == 0)
-                {
-                    return new DbResponse() { Status = HttpStatusCode.NotFound };
-                }
+			if (applications == null || applications.Count == 0)
+			{
+				return new DbResponse() { Status = HttpStatusCode.NotFound };
+			}
 
-                return new DbResponse() { Status = HttpStatusCode.OK, Data = activities };
-            }
-        }
+			return new DbResponse() { Status = HttpStatusCode.OK, Data = applications };
+		}
 
-        public async Task<DbResponse> AddApplication(Application newApplication)
+		public async Task<DbResponse> GetUsers()
+		{
+			var users = await _context.Users.ToListAsync();
+
+			if (users == null || users.Count == 0)
+			{
+				return new DbResponse() { Status = HttpStatusCode.NotFound };
+			}
+
+			return new DbResponse() { Status = HttpStatusCode.OK, Data = users };
+		}
+
+		public async Task<DbResponse> GetPlatforms()
+		{
+			var platforms = await _context.Platforms.ToListAsync();
+
+			if (platforms == null || platforms.Count == 0)
+			{
+				return new DbResponse() { Status = HttpStatusCode.NotFound };
+			}
+
+			return new DbResponse() { Status = HttpStatusCode.OK, Data = platforms };
+		}
+
+		public async Task<DbResponse> GetOutputApplication()
+		{
+			var outputApplications = await (from a in _context.Applications
+											join u in _context.Users on a.UserID equals u.UserID
+											join s in _context.Activities on a.ActivityTypeID equals s.ActivityID
+											join z in _context.Platforms on a.PlatformId equals z.PlatformId
+											select new OutputApplication
+											{
+												Title = a.Title,
+												Author = u.Name,
+												Activity = s.Name,
+												ShortDescription = a.ShortDescription,
+												Plan = a.Plan,
+												Platform = z.Name,
+												SubmissionDate = a.SubmissionDate
+											}).ToListAsync();
+
+
+			if (outputApplications == null || outputApplications.Count == 0)
+			{
+				return new DbResponse() { Status = HttpStatusCode.NotFound };
+			}
+
+			return new DbResponse() { Status = HttpStatusCode.OK, Data = outputApplications };
+		}
+
+		public async Task<DbResponse> AddApplication(Application newApplication)
         {
             _context.Applications.Add(newApplication);
             await _context.SaveChangesAsync();
@@ -84,7 +116,14 @@ namespace labOpp
             await _context.SaveChangesAsync();
 
             return new DbResponse() {Status = HttpStatusCode.OK, Data = string.Empty};
-
         }
-    }
+
+		public async Task<DbResponse> AddUser(User newUser)
+		{
+			_context.Users.Add(newUser);
+			await _context.SaveChangesAsync();
+
+			return new DbResponse() { Status = HttpStatusCode.Created, Data = newUser };
+		}
+	}
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
 using System.Text;
+using labOpp.Model;
 
 namespace oopLan.Pages
 {
@@ -24,7 +25,7 @@ namespace oopLan.Pages
 			{
 				ApplicationID = applicationGuid,
 				UserID = applicationGuid,
-				ActivityTypeID = ApplicationActivity,
+				ActivityTypeID = Guid.NewGuid(),
 				Title = ApplicationName,
 				ShortDescription = ApplicationDescription,
 				Plan = "Под редакцию",
