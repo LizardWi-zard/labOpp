@@ -48,16 +48,14 @@ namespace oopLan.Pages
                 using (HttpClient _http = new HttpClient())
                 {
                     applicationsList = await _http.GetFromJsonAsync<List<OutputApplication>>("https://localhost:7096/OutputApplications");
+
+                    Console.WriteLine(applicationsList.Count());
                 }
             }
             catch (Exception ex)
             {
 
             }
-
-            
-
-
 		}
     }
 }

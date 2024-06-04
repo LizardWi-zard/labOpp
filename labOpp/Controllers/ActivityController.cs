@@ -1,14 +1,10 @@
 using labOpp.Model;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System;
 using System.Net;
 
 namespace labOpp.Controllers
 {
-    [ApiController]
+	[ApiController]
     [Route("[controller]")]
     public class ActivityController : ControllerBase
     {
@@ -111,14 +107,14 @@ namespace labOpp.Controllers
         }
 
 		[HttpPost("/CreateNewUser")]
-		public async Task<DbResponse> CreateNewUser(User newUser)
+		public async Task<DbResponse> CreateNewUser(string name, string mail)
 		{
-			if (newUser == null)
+			if (name == null || mail == null)
 			{
 				return new DbResponse() { Status = HttpStatusCode.BadRequest, Data = string.Empty };
 			}
 
-			var response = await _getApplication.AddUser(newUser);
+			var response = await _getApplication.AddUser(name, mail);
 
 			if (response.Status == HttpStatusCode.Created)
 			{
@@ -126,6 +122,24 @@ namespace labOpp.Controllers
 			}
 
 			return new DbResponse() { Status = response.Status, Data = string.Empty };
+		}
+
+		[HttpGet("/GetUserId")]
+		public async Task<DbResponse> GetUserId(string userMail)
+		{
+			if (userMail == null)
+			{
+				return new DbResponse() { Status = HttpStatusCode.BadRequest, Data = string.Empty };
+			}
+
+			var response = await _getApplication.GetUserId(userMail);
+
+			if (response.Status == HttpStatusCode.NotFound)
+			{
+				return new DbResponse() { Status = HttpStatusCode.NotFound, Data = string.Empty };
+			}
+
+			return new DbResponse() { Status = response.Status, Data = response.Data };
 		}
 	}
 }

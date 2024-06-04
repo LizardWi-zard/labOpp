@@ -1,9 +1,8 @@
 ﻿using labOpp.Model;
-using Microsoft.AspNetCore.Builder;
 
 namespace labOpp
 {
-    public interface IApplicationProvider
+	public interface IApplicationProvider
     {
         Task<DbResponse> GetActivities();
         Task<DbResponse> GetApplications();
@@ -11,7 +10,8 @@ namespace labOpp
         Task<DbResponse> GetPlatforms();
         Task<DbResponse> GetOutputApplication();
 		Task<DbResponse> AddApplication(Application newApplication);
-		Task<DbResponse> AddUser(User newUser);
+		Task<DbResponse> AddUser(string name, string mail);
 		Task<DbResponse> DeleteApplication(Guid applicationID);
-    }
+		Task<DbResponse> GetUserId(string userMail);
+	}
 }
