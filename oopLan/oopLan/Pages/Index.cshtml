@@ -5,15 +5,17 @@
 }
 
 <div>
-	<form class="search-block">
-		<input type="search" class="search-field" placeholder="Поле поиска"/>
+	<form class="search-block" method="post" asp-page-handler="SearchApplications">
+		<input type="search" class="search-field" name="searchPrompt" placeholder="Поле поиска" value="@ViewData["lastSearch"]" />
 		<label class="search-label">от</label>
-		<input type="date" class="date-field" name="dateStart"/>
+		<input type="date" class="date-field" name="dateStart" value="@ViewData["lastDateStart"]"/>
 		<label class="search-label">до</label>
-		<input type="date" class="date-field" name="dateEnd"/>
-		<button class="input-button search-button">Поиск</button>
-		<button class="search-button update-button material-icons" style="font-size:32px;" "@Model.OnGet()">refresh</button>
+		<input type="date" class="date-field" name="dateEnd" value="@ViewData["lastDateEnd"]" />
+		<button type="submit" class="input-button search-button">Поиск</button>
+		<button class="search-button update-button material-icons" style="font-size:32px;" action="@Model.IndexModelRefresh()">refresh</button>
 	</form>
+	
+
 	<table data="Applications">
 		<thead>
 			<tr>

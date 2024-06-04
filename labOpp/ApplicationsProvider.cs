@@ -98,6 +98,7 @@ namespace labOpp
 			return new DbResponse() { Status = HttpStatusCode.OK, Data = outputApplications };
 		}
 
+
 		public async Task<DbResponse> AddApplication(Application newApplication)
         {
             _context.Applications.Add(newApplication);

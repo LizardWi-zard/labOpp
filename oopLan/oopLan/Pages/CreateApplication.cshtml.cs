@@ -23,6 +23,7 @@ namespace oopLan.Pages
 		[BindProperty]
 		public string ApplicationDescription { get; set; }
 
+
 		public List<Activity> activities { get; set; } = new List<Activity>();
 		public List<Platform> platforms { get; set; } = new List<Platform>();
 
