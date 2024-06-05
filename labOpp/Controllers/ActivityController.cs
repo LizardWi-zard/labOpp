@@ -107,21 +107,21 @@ namespace labOpp.Controllers
         }
 
 		[HttpPost("/CreateNewUser")]
-		public async Task<DbResponse> CreateNewUser(string name, string mail)
+		public async Task<HttpStatusCode> CreateNewUser(string name, string mail)
 		{
 			if (name == null || mail == null)
 			{
-				return new DbResponse() { Status = HttpStatusCode.BadRequest, Data = string.Empty };
+				return  HttpStatusCode.BadRequest;
 			}
 
 			var response = await _getApplication.AddUser(name, mail);
 
 			if (response.Status == HttpStatusCode.Created)
 			{
-				return new DbResponse() { Status = HttpStatusCode.Created, Data = response.Data };
+				return HttpStatusCode.Created;
 			}
 
-			return new DbResponse() { Status = response.Status, Data = string.Empty };
+			return response.Status;
 		}
 
 		[HttpGet("/GetUserId")]

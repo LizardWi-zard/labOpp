@@ -118,6 +118,11 @@ namespace labOpp
 		public async Task<DbResponse> AddUser(string name, string mail)
 		{
 			User userToAdd = new User { UserID = Guid.NewGuid(), Name = name, Email = mail};
+			var result = await _context.Users.Where(x => x.Email == mail).FirstOrDefaultAsync();
+			if (result != null)
+			{
+				return new DbResponse { Status = HttpStatusCode.BadRequest, Data = string.Empty };
+			}
 
 			_context.Users.Add(userToAdd);
 			await _context.SaveChangesAsync();

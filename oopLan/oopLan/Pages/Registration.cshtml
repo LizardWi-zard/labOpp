@@ -3,6 +3,7 @@
 @{
 	ViewData["Title"] = "SingIn";
 }
+
 <div class="create-application-block">
 
 	<form class="create-application" method="post">
@@ -10,13 +11,22 @@
 		<p><input class="input-text" type="text" maxlength="48" name="userName" autocomplete="off" required></p>
 		<label>Email</label>
 		<p><input class="input-text" type="email" name="userEmail" autocomplete="off" required /></p>
+
 		
+
 		<p>
-			<button action="@Model.AddAccount()" class="input-button search-button" type="submit">Создать</button>
+			<button asp-page-handler="AddAccount" class="input-button search-button" type="submit">Создать</button>
 		</p>
 	</form>
 
-
+	@if (ViewData["Message"] != null)
+	{
+					<script type="text/javascript">
+					window.onload = function () {
+							alert("@ViewData["Message"]");
+					};
+				</script>
+	}
 
 
 </div>
