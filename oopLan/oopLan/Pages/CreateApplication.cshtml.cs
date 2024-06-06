@@ -1,6 +1,7 @@
 using labOpp.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data;
 using System.Text;
 using System.Text.Json;
 
@@ -23,12 +24,17 @@ namespace oopLan.Pages
 		[BindProperty]
 		public string ApplicationDescription { get; set; }
 
+		[BindProperty]
+		public string DatePlan { get; set; }
+
+		public string currentDate;
 
 		public List<Activity> activities { get; set; } = new List<Activity>();
 		public List<Platform> platforms { get; set; } = new List<Platform>();
 
 		public CreateApplicationModel()
 		{
+			currentDate = DateTime.Now.ToString("yyyy-MM-dd");
 		}
 
 		public async Task CreateNewApplication()
@@ -49,7 +55,7 @@ namespace oopLan.Pages
 				Title = ApplicationName,
 				ShortDescription = ApplicationDescription,
 				Plan = "Под редакцию",
-				SubmissionDate = DateTime.UtcNow
+				SubmissionDate = DateTime.Parse(DatePlan).ToUniversalTime().AddDays(1)
 			};
 
 			var json = JsonSerializer.Serialize(newApplication);
