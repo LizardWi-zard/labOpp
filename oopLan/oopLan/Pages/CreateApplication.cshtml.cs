@@ -23,6 +23,9 @@ namespace oopLan.Pages
 		[BindProperty]
 		public string ApplicationDescription { get; set; }
 
+		[BindProperty]
+		public string DatePlan { get; set; }
+
 
 		public List<Activity> activities { get; set; } = new List<Activity>();
 		public List<Platform> platforms { get; set; } = new List<Platform>();
@@ -49,7 +52,7 @@ namespace oopLan.Pages
 				Title = ApplicationName,
 				ShortDescription = ApplicationDescription,
 				Plan = "Под редакцию",
-				SubmissionDate = DateTime.UtcNow
+				SubmissionDate = DateTime.Parse(DatePlan).ToUniversalTime().AddDays(1)
 			};
 
 			var json = JsonSerializer.Serialize(newApplication);

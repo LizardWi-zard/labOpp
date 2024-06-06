@@ -315,3 +315,7 @@ tfoot td {
     pointer-events: none;
     cursor: not-allowed;
 }
+
+.date-field{
+    width: 150px;
+}
