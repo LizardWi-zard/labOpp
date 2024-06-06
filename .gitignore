@@ -362,3 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 labOpp/appsettings.json
+labOpp/appsettings.json
+labOpp/Migrations/20240604153623_init.cs

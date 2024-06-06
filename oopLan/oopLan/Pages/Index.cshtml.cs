@@ -81,7 +81,7 @@ namespace oopLan.Pages
 				ViewData["lastDateEnd"] = dateParsedEnd ? dateEnd.ToString("yyyy-MM-dd") : null;
 
 				var applications = from app in applicationsList
-								   where (app.SubmissionDate >= dateStart ||
+								   where (app.SubmissionDate >= dateStart &&
 								   app.SubmissionDate <= dateEnd)
 								   select app;
 				applicationsList = applications.ToList();

@@ -29,7 +29,6 @@ namespace oopLan.Pages
 
 		public CreateApplicationModel()
 		{
-
 		}
 
 		public async Task CreateNewApplication()
@@ -62,6 +61,7 @@ namespace oopLan.Pages
 
                 Console.WriteLine(response.StatusCode);
 			}
+			
 		}
 
 		public async Task<Guid> GetUserId(string mail)
