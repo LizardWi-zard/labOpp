@@ -5,7 +5,7 @@
 }
 <div class="create-application-block">
 
-	<form class="create-application" method="post">
+	<form class="create-application" method="post" asp-page-handler="CreateNewApplication">
 		<label>Имя</label>
 		<p><input class="input-text" type="text" maxlength="48" name="userName" autocomplete="off" required></p>
 		<label>Email</label>
@@ -33,7 +33,7 @@
 		<label>Дата проведения</label>
 		<p><input type="date" class="date-field" min="@Model.currentDate" name="datePlan" /></p>
 		<p>
-			<button action="@Model.CreateNewApplication()" class="input-button search-button" type="submit">Создать</button>
+			<button class="input-button search-button" type="submit">Создать</button>
 		</p>
 	</form>
 </div>

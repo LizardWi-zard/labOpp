@@ -34,10 +34,13 @@ namespace oopLan.Pages
 
 		public CreateApplicationModel()
 		{
-			currentDate = DateTime.Now.ToString("yyyy-MM-dd");
-		}
+			OnGet();
 
-		public async Task CreateNewApplication()
+            currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+
+        }
+
+		public async Task OnPostCreateNewApplication()
         {
 			var applicationGuid = Guid.NewGuid();
 
