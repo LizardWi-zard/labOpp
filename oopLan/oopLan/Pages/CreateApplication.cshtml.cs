@@ -1,6 +1,7 @@
 using labOpp.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data;
 using System.Text;
 using System.Text.Json;
 
@@ -26,12 +27,14 @@ namespace oopLan.Pages
 		[BindProperty]
 		public string DatePlan { get; set; }
 
+		public string currentDate;
 
 		public List<Activity> activities { get; set; } = new List<Activity>();
 		public List<Platform> platforms { get; set; } = new List<Platform>();
 
 		public CreateApplicationModel()
 		{
+			currentDate = DateTime.Now.ToString("yyyy-MM-dd");
 		}
 
 		public async Task CreateNewApplication()
